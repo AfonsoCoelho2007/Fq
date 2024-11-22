@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afonso Coelho</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            width: 500px;
+        }
+        input, button {
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 10px;
+        }
+        input {
+            background-color: #333;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            background-color: #444;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        .result p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Cálculo da potência elétrica consumida numa habitação</h2>
+        <form id="energyForm">
+            <label for="power">Potência em W:</label>
+            <input type="number" id="power" required>
+            <label for="time">Intervalo de tempo em s:</label>
+            <input type="number" id="time" required>
+            <button type="button" onclick="calculate()">Calcular</button>
+        </form>
+        <div class="result" id="result">
+            <p>Energia consumida (J): <span id="energy">0</span></p>
+            <p>Pu (painel) em W: <span id="pu">0</span></p>
+            <p>Pf em W: <span id="pf">0</span></p>
+            <p>A/m²: <span id="area">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            const power = parseFloat(document.getElementById('power').value);
+            const time = parseFloat(document.getElementById('time').value);
+            
+            if (isNaN(power) || isNaN(time) || power <= 0 || time <= 0) {
+                alert('Por favor insira valores válidos!');
+                return;
+            }
+
+            // Energia consumida em J
+            const energy = power * time;
+            document.getElementById('energy').textContent = energy.toFixed(2);
+
+            // Pu (painel)
+            const pu = energy / (8 * 3600); // 8 horas de luz solar
+            document.getElementById('pu').textContent = pu.toFixed(2);
+
+            // Rendimento
+            const rendimento = 0.5;
+
+            // Pf
+            const pf = pu / rendimento;
+            document.getElementById('pf').textContent = pf.toFixed(2);
+
+            // Área A/m²
+            const area = pf / 1200; // 1200 W/m²
+            document.getElementById('area').textContent = area.toFixed(2);
+        }
+    </script>
+</body>
+</html>
